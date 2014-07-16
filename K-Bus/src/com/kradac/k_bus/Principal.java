@@ -73,7 +73,6 @@ public class Principal extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -86,7 +85,6 @@ public class Principal extends Activity {
 		}
 	}
 
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -97,7 +95,7 @@ public class Principal extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
 	public void compartirApp() {
 		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 		sharingIntent.setType("text/plain");
@@ -108,16 +106,16 @@ public class Principal extends Activity {
 						"Descargue la aplicación móvil K-Bus desde el Google Play - https://play.google.com/ ");
 		startActivity(Intent.createChooser(sharingIntent, "Compartir via"));
 	}
-	
+
 	public void showConfirmExit() {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(mycontext);
 
 		// Setting Dialog Title
 		alertDialog.setTitle("Mensaje");
-
+		alertDialog.setIcon(R.drawable.ic_kbus);
 		// Setting Dialog Message
 		alertDialog
-				.setMessage("¿Esta seguro que desea Salir de la Aplicación?.");
+				.setMessage("¿Esta seguro que desea Salir de la Aplicación?");
 
 		// On pressing Settings button
 		alertDialog.setPositiveButton("Si",
@@ -141,7 +139,7 @@ public class Principal extends Activity {
 
 	public void mnsjAcerca() {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(mycontext);
-
+		alertDialog.setIcon(R.drawable.ic_kbus);
 		// Setting Dialog Title
 		alertDialog.setTitle("Acerca de");
 

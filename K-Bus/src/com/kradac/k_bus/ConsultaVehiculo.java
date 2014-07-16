@@ -1,14 +1,16 @@
 package com.kradac.k_bus;
 
-import com.kradac.k_bus.controlador.ConexionController;
-import com.kradac.k_bus.controlador.VehiculoController;
-import com.kradac.k_bus.modelo.Vehiculo;
+//import com.kradac.k_bus.controlador.ConexionController;
+//import com.kradac.k_bus.controlador.VehiculoController;
+//import com.kradac.k_bus.modelo.Vehiculo;
+
+import com.kradac.k_bus.Task.BuscarVehiculoTask;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+//import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
+//import android.content.Intent;
+//import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -27,7 +29,7 @@ public class ConsultaVehiculo extends Activity {
 	private EditText buscar;
 	private Button btnConsultar;
 	private int seleccionado;
-	private Vehiculo informacionVehiculo;
+	//private Vehiculo informacionVehiculo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,19 @@ public class ConsultaVehiculo extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (!buscar.getText().toString().equals("")) {
-					new BuscarVehiculo().execute();
+					seleccionado = opciones.getCheckedRadioButtonId();
+					switch (seleccionado) {
+					case R.id.rbRegistro:
+						new BuscarVehiculoTask(mycontext,
+								buscar.getText().toString(),"regMunicipal").execute();
+						break;
+					case R.id.rbPlaca:
+						new BuscarVehiculoTask(mycontext,
+								buscar.getText().toString(), "placa").execute();
+						break;
+					}
+
+					// new BuscarVehicul().execute();
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"No hay ningun dato a buscar", Toast.LENGTH_SHORT)
@@ -76,7 +90,7 @@ public class ConsultaVehiculo extends Activity {
 		});
 	}
 
-	class BuscarVehiculo extends AsyncTask<Void, Void, Void> {
+	/*class BuscarVehicul extends AsyncTask<Void, Void, Void> {
 
 		private ProgressDialog pDialog;
 		private Boolean isOnline;
@@ -97,7 +111,7 @@ public class ConsultaVehiculo extends Activity {
 			isOnline = new ConexionController(mycontext)
 					.isOnline("http://www.google.com");
 			server = "http://190.12.61.30:5801";
-			
+
 			seleccionado = opciones.getCheckedRadioButtonId();
 			switch (seleccionado) {
 			case R.id.rbRegistro:
@@ -112,7 +126,7 @@ public class ConsultaVehiculo extends Activity {
 			}
 			if (informacionVehiculo == null) {
 				server = "http://200.0.29.117";
-		
+
 				seleccionado = opciones.getCheckedRadioButtonId();
 				switch (seleccionado) {
 				case R.id.rbRegistro:
@@ -160,5 +174,5 @@ public class ConsultaVehiculo extends Activity {
 				informacionVehiculo.getRegMunicipalVehiculo());
 		i.putExtra("placa", informacionVehiculo.getPlacaVehiculo());
 		startActivity(i);
-	}
+	}*/
 }

@@ -9,9 +9,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.kradac.k_bus.controlador.ConexionController;
@@ -22,9 +24,12 @@ import com.kradac.k_bus.modelo.LineaRuta;
 import com.kradac.k_bus.modelo.Ruta;
 import com.kradac.k_bus.modelo.VehiculoGPS;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
@@ -57,6 +62,7 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 	private Boolean isServerUp;
 	private Timer timer;
 	private ArrayList<Ruta> listadoRutas;
+	private ArrayList<VehiculoGPS> listadoVehiculosGps;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +113,15 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 			}
 
 			locationManager.requestLocationUpdates(provider, 20000, 0, this);
+			mapaRutas.setOnMarkerClickListener(new OnMarkerClickListener() {
+				public boolean onMarkerClick(Marker marker) {
+					if (!marker.getTitle().equalsIgnoreCase("inicio")&&!marker.getTitle().equalsIgnoreCase("final")) {
+						dialogoInformacion(marker.getTitle());
+					}
 
+					return false;
+				}
+			});
 			// Cargar Datos Lista Desplegable
 			cmbCiudades = (Spinner) findViewById(R.id.CmbCiudad);
 			cmbRutas = (Spinner) findViewById(R.id.CmbRuta);
@@ -348,32 +362,30 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 
 	class ListarVehiculoGps extends AsyncTask<Void, Void, Void> {
 
-		private ArrayList<VehiculoGPS> listadoSkypePatrol;
-
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
 		protected Void doInBackground(Void... arg0) {
-			listadoSkypePatrol = new VehiculoGpsController().listarSkyPatrol(
+			listadoVehiculosGps = new VehiculoGpsController().listarSkyPatrol(
 					server, idRutaSeleccionada);
 			return null;
 		}
 
 		protected void onPostExecute(Void arg1) {
-			if (listadoSkypePatrol.size() == 0) {
+			if (listadoVehiculosGps.size() == 0) {
 				Toast.makeText(
 						mycontext,
 						"Actualmente no se encuentra ningún vehículo en circulación.",
 						Toast.LENGTH_SHORT).show();
 			} else {
-				for (int i = 0; i < listadoSkypePatrol.size(); i++) {
-					actualizarMarcador(new LatLng(listadoSkypePatrol.get(i)
-							.getLatitud(), listadoSkypePatrol.get(i)
+				for (int i = 0; i < listadoVehiculosGps.size(); i++) {
+					actualizarMarcador(new LatLng(listadoVehiculosGps.get(i)
+							.getLatitud(), listadoVehiculosGps.get(i)
 							.getLongitud()), ""
-							+ listadoSkypePatrol.get(i).getRegMunicipal()
-							+ " | " + listadoSkypePatrol.get(i).getPlaca(),
+							+ listadoVehiculosGps.get(i).getRegMunicipal()
+							+ "," + listadoVehiculosGps.get(i).getPlaca(),
 							markerBus);
 				}
 			}
@@ -433,16 +445,18 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 				if (isServerUp) {
 					actualizarMarcador(new LatLng(listadoLineaRuta.get(0)
 							.getLatitud(), listadoLineaRuta.get(0)
-							.getLongitud()), "Inicio", BitmapDescriptorFactory
-							.fromResource(R.drawable.marker1));
+							.getLongitud()), "Inicio",
+							BitmapDescriptorFactory
+									.fromResource(R.drawable.marker1));
 					mapaRutas.addPolyline(lineOptions);
 					actualizarMarcador(
 							new LatLng(listadoLineaRuta.get(
 									listadoLineaRuta.size() - 1).getLatitud(),
 									listadoLineaRuta.get(
 											listadoLineaRuta.size() - 1)
-											.getLongitud()), "Final", BitmapDescriptorFactory
-											.fromResource(R.drawable.marker2));
+											.getLongitud()), "Final",
+							BitmapDescriptorFactory
+									.fromResource(R.drawable.marker2));
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"Problemas con el servidor, intentelo mas tarde..",
@@ -461,5 +475,36 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 			BitmapDescriptor marker) {
 		mapaRutas.addMarker(new MarkerOptions().position(ubicacion)
 				.icon(marker).title(titulo));
+	}
+
+	public void dialogoInformacion(String titulo) {
+		AlertDialog.Builder aDialogo = new AlertDialog.Builder(this);
+		aDialogo.setIcon(R.drawable.ic_kbus);
+		aDialogo.setTitle("Información");
+		String registro = titulo.split(",")[0];
+		String placa = titulo.split(",")[1];
+		Double velocidad = null;
+		String fechaConexion = null;
+		String fechaUltimoDato = null;
+		for (int i = 0; i < listadoVehiculosGps.size(); i++) {
+			if (placa.equalsIgnoreCase(listadoVehiculosGps.get(i).getPlaca())) {
+				velocidad = listadoVehiculosGps.get(i).getVelocidad();
+				fechaConexion = listadoVehiculosGps.get(i).getFechaHoraConex();
+				fechaUltimoDato = listadoVehiculosGps.get(i)
+						.getFechaHoraUltDato();
+			}
+		}
+		String mensaje = "Registro: " + registro + "\nPlaca: " + placa
+				+ "\nVelocidad: " + velocidad + "\nConexión: "
+				+ fechaConexion.replaceAll("T", " ")
+				+ "\nUltimo dato recibido: "
+				+ fechaUltimoDato.replaceAll("T", " ");
+		aDialogo.setMessage(mensaje);
+		aDialogo.setPositiveButton("Aceptar", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		aDialogo.show();
 	}
 }

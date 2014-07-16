@@ -23,6 +23,9 @@ public class VehiculoGpsController {
 	private static final String tag_longitud = "longitud";
 	private static final String tag_placaVehiculo = "placa";
 	private static final String tag_regMunicipalVehiculo = "regMunicipal";
+	private static final String tag_velocidad = "velocidad";
+	private static final String tag_fechaHoraConex = "fechaHoraConex";
+	private static final String tag_fechaHoraUltDato = "fechaHoraConex";
 
 	JSONArray rutasJSON = null;
 
@@ -47,9 +50,12 @@ public class VehiculoGpsController {
 						skyPatrolJSON.getDouble(tag_latitud),
 						skyPatrolJSON.getDouble(tag_longitud), skyPatrolJSON
 								.getJSONObject(tag_idEquipo).getString(
-										tag_placaVehiculo), skyPatrolJSON
-								.getJSONObject(tag_idEquipo).getString(
-										tag_regMunicipalVehiculo));
+										tag_regMunicipalVehiculo),
+						skyPatrolJSON.getJSONObject(tag_idEquipo).getString(
+								tag_placaVehiculo),
+						skyPatrolJSON.getDouble(tag_velocidad),
+						skyPatrolJSON.getString(tag_fechaHoraConex),
+						skyPatrolJSON.getString(tag_fechaHoraUltDato));
 				listaVehiculoGps.add(vehiculoGps);
 			}
 			for (int i = 0; i < respJSON1.length(); i++) {
@@ -58,9 +64,12 @@ public class VehiculoGpsController {
 						fastracksJSON.getDouble(tag_latitud),
 						fastracksJSON.getDouble(tag_longitud), fastracksJSON
 								.getJSONObject(tag_idEquipo).getString(
-										tag_placaVehiculo), fastracksJSON
-								.getJSONObject(tag_idEquipo).getString(
-										tag_regMunicipalVehiculo));
+										tag_regMunicipalVehiculo),
+						fastracksJSON.getJSONObject(tag_idEquipo).getString(
+								tag_placaVehiculo),
+						fastracksJSON.getDouble(tag_velocidad),
+						fastracksJSON.getString(tag_fechaHoraConex),
+						fastracksJSON.getString(tag_fechaHoraUltDato));
 				listaVehiculoGps.add(vehiculoGps);
 			}
 			return listaVehiculoGps;
