@@ -5,7 +5,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.app.Dialog;
 import android.location.Criteria;
@@ -17,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 
 public class MapaParadas extends FragmentActivity implements LocationListener {
 	private GoogleMap mapaParadas;
+	private BitmapDescriptor markerBus;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class MapaParadas extends FragmentActivity implements LocationListener {
 
 			// Enabling MyLocation Layer of Google Map
 			mapaParadas.setMyLocationEnabled(true);
-
+			
 			// Getting LocationManager object from System Service
 			// LOCATION_SERVICE
 			LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -81,12 +85,20 @@ public class MapaParadas extends FragmentActivity implements LocationListener {
 
 		// Creating a LatLng object for the current location
 		LatLng latLng = new LatLng(latitude, longitude);
-
-		// Showing the current location in Google Map
+		
+		/*// Showing the current location in Google Map
 		mapaParadas.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
 		// Zoom in the Google Map
-		mapaParadas.animateCamera(CameraUpdateFactory.zoomTo(15));
+		mapaParadas.animateCamera(CameraUpdateFactory.zoomTo(15));*/
+		
+		
+	}
+	
+	public void actualizarMarcador(LatLng ubicacion, String titulo,
+			BitmapDescriptor marker) {
+		mapaParadas.addMarker(new MarkerOptions().position(ubicacion)
+				.icon(marker).title(titulo));
 	}
 
 	@Override

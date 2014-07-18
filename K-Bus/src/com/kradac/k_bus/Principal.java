@@ -23,13 +23,15 @@ public class Principal extends Activity {
 
 		mycontext = this;
 
-		Button btnRutas, btnInformacion, btnParadas, btnCompartir;
+		Button btnRutas, btnInformacion, btnParadas, btnCompartir, btnDenuncias, btnEncuestas;
 
 		btnRutas = (Button) findViewById(R.id.btnMapaRutas);
 		btnInformacion = (Button) findViewById(R.id.btnInformacionBus);
 		btnParadas = (Button) findViewById(R.id.btnMapaParadas);
 		btnCompartir = (Button) findViewById(R.id.btnCompartir);
-
+		btnDenuncias = (Button) findViewById(R.id.btnDenuncia);
+		btnEncuestas = (Button) findViewById(R.id.btnEncuesta);
+		
 		btnRutas.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -65,7 +67,22 @@ public class Principal extends Activity {
 				compartirApp();
 			}
 		});
+		btnEncuestas.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Principal.this, Encuestas.class));
+			}
+		});
+		btnDenuncias.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Principal.this, Denuncias.class));
+			}
+		});
 	}
 
 	@Override

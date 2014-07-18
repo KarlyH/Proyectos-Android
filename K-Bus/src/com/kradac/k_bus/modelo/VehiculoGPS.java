@@ -6,7 +6,6 @@ public class VehiculoGPS {
 	private String regMunicipal;
 	private String placa;
 	private double velocidad;
-	private String fechaHoraConex;
 	private String fechaHoraUltDato;
 
 	public double getLatitud() {
@@ -49,14 +48,6 @@ public class VehiculoGPS {
 		this.velocidad = velocidad;
 	}
 
-	public String getFechaHoraConex() {
-		return fechaHoraConex;
-	}
-
-	public void setFechaHoraConex(String fechaHoraConex) {
-		this.fechaHoraConex = fechaHoraConex;
-	}
-
 	public String getFechaHoraUltDato() {
 		return fechaHoraUltDato;
 	}
@@ -66,15 +57,13 @@ public class VehiculoGPS {
 	}
 
 	public VehiculoGPS(double latitud, double longitud, String regMunicipal,
-			String placa, double velocidad, String fechaHoraConex,
-			String fechaHoraUltDato) {
+			String placa, double velocidad, String fechaHoraUltDato) {
 		super();
 		this.latitud = latitud;
 		this.longitud = longitud;
 		this.regMunicipal = regMunicipal;
 		this.placa = placa;
 		this.velocidad = velocidad;
-		this.fechaHoraConex = fechaHoraConex;
 		this.fechaHoraUltDato = fechaHoraUltDato;
 	}
 }

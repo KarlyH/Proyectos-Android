@@ -46,8 +46,7 @@
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="Ej. 1170"
-                android:inputType="textPersonName"
-                android:textColorHint="#ffffff" >
+                android:inputType="textPersonName" >
 
                 <requestFocus />
             </EditText>
@@ -58,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
-                android:text="Aceptar" />
+                android:text="Buscar" />
         </LinearLayout>
     </ScrollView>
 

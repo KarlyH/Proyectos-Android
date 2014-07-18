@@ -412,36 +412,38 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020023;
         public static final int common_signin_btn_text_pressed_dark=0x7f020024;
         public static final int common_signin_btn_text_pressed_light=0x7f020025;
-        public static final int fondo=0x7f020026;
-        public static final int ic_bus=0x7f020027;
-        public static final int ic_compartir=0x7f020028;
-        public static final int ic_informacion_bus=0x7f020029;
-        public static final int ic_kbus=0x7f02002a;
-        public static final int ic_mapa=0x7f02002b;
-        public static final int ic_plusone_medium_off_client=0x7f02002c;
-        public static final int ic_plusone_small_off_client=0x7f02002d;
-        public static final int ic_plusone_standard_off_client=0x7f02002e;
-        public static final int ic_plusone_tall_off_client=0x7f02002f;
-        public static final int informacion_bus=0x7f020030;
-        public static final int marker1=0x7f020031;
-        public static final int marker2=0x7f020032;
-        public static final int marker3=0x7f020033;
-        public static final int marker4=0x7f020034;
-        public static final int marker5=0x7f020035;
-        public static final int marker6=0x7f020036;
+        public static final int denuncias_ant=0x7f020026;
+        public static final int fin_ruta=0x7f020027;
+        public static final int fondo=0x7f020028;
+        public static final int ic_bus=0x7f020029;
+        public static final int ic_compartir=0x7f02002a;
+        public static final int ic_denuncia=0x7f02002b;
+        public static final int ic_encuesta=0x7f02002c;
+        public static final int ic_informacion_bus=0x7f02002d;
+        public static final int ic_kbus=0x7f02002e;
+        public static final int ic_mapa=0x7f02002f;
+        public static final int ic_plusone_medium_off_client=0x7f020030;
+        public static final int ic_plusone_small_off_client=0x7f020031;
+        public static final int ic_plusone_standard_off_client=0x7f020032;
+        public static final int ic_plusone_tall_off_client=0x7f020033;
+        public static final int informacion_bus=0x7f020034;
+        public static final int inicio_ruta=0x7f020035;
+        public static final int marker_usuario=0x7f020036;
         public static final int powered_by_google_dark=0x7f020037;
         public static final int powered_by_google_light=0x7f020038;
         public static final int splash_screen=0x7f020039;
     }
     public static final class id {
-        public static final int CmbCiudad=0x7f070029;
-        public static final int CmbRuta=0x7f07002a;
-        public static final int MnuItmAcerca=0x7f07002c;
-        public static final int MnuItmTrazarRuta=0x7f07002d;
+        public static final int CmbCiudad=0x7f07002b;
+        public static final int CmbRuta=0x7f07002c;
+        public static final int MnuItmAcerca=0x7f07002e;
+        public static final int MnuItmTrazarRuta=0x7f07002f;
         public static final int ScrlView=0x7f070014;
         public static final int book_now=0x7f070010;
         public static final int btnAceptarBuses=0x7f070019;
         public static final int btnCompartir=0x7f070028;
+        public static final int btnDenuncia=0x7f070029;
+        public static final int btnEncuesta=0x7f07002a;
         public static final int btnInformacionBus=0x7f070026;
         public static final int btnMapaParadas=0x7f070027;
         public static final int btnMapaRutas=0x7f070025;
@@ -454,7 +456,7 @@ containing a value of this type.
         public static final int holo_light=0x7f070006;
         public static final int hybrid=0x7f070004;
         public static final int mapaParadas=0x7f070024;
-        public static final int mapaRutas=0x7f07002b;
+        public static final int mapaRutas=0x7f07002d;
         public static final int match_parent=0x7f07000c;
         public static final int monochrome=0x7f070013;
         public static final int none=0x7f070000;
@@ -486,11 +488,13 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int activity_consulta_bus=0x7f030000;
-        public static final int activity_informacion_bus=0x7f030001;
-        public static final int activity_paradas=0x7f030002;
-        public static final int activity_principal=0x7f030003;
-        public static final int activity_rutas=0x7f030004;
-        public static final int activity_splash=0x7f030005;
+        public static final int activity_denuncias=0x7f030001;
+        public static final int activity_encuestas=0x7f030002;
+        public static final int activity_informacion_bus=0x7f030003;
+        public static final int activity_paradas=0x7f030004;
+        public static final int activity_principal=0x7f030005;
+        public static final int activity_rutas=0x7f030006;
+        public static final int activity_splash=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;

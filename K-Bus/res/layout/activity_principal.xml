@@ -16,14 +16,14 @@
             android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_mapa"
-            android:text="Visualizar Rutas" />
+            android:text="Mapa K-Bus" />
 
         <Button
             android:id="@+id/btnInformacionBus"
             android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_informacion_bus"
-            android:text="Información Bus" />
+            android:text="Consultas" />
 
     </LinearLayout>
 
@@ -37,7 +37,7 @@
             android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_bus"
-            android:text="Parada Bus" />
+            android:text="Paradas" />
 
         <Button
             android:id="@+id/btnCompartir"
@@ -45,6 +45,27 @@
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_compartir"
             android:text="Compartir" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/btnDenuncia"
+            android:layout_width="138dp"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_denuncia"
+            android:text="Denuncias" />
+
+        <Button
+            android:id="@+id/btnEncuesta"
+            android:layout_width="138dp"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_encuesta"
+            android:text="Encuestas" />
 
     </LinearLayout>
 

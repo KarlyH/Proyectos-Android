@@ -60,7 +60,6 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 	private String server;
 	private Boolean isOnline;
 	private Boolean isServerUp;
-	private Timer timer;
 	private ArrayList<Ruta> listadoRutas;
 	private ArrayList<VehiculoGPS> listadoVehiculosGps;
 
@@ -69,7 +68,6 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rutas);
 		mycontext = this;
-		timer = new Timer();
 		// Getting Google Play availability status
 		int status = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getBaseContext());
@@ -77,7 +75,6 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 		// Showing status
 		if (status != ConnectionResult.SUCCESS) { // Google Play Services are
 													// not available
-
 			int requestCode = 10;
 			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,
 					requestCode);
@@ -115,10 +112,10 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 			locationManager.requestLocationUpdates(provider, 20000, 0, this);
 			mapaRutas.setOnMarkerClickListener(new OnMarkerClickListener() {
 				public boolean onMarkerClick(Marker marker) {
-					if (!marker.getTitle().equalsIgnoreCase("inicio")&&!marker.getTitle().equalsIgnoreCase("final")) {
+					if (!marker.getTitle().equalsIgnoreCase("inicio")
+							&& !marker.getTitle().equalsIgnoreCase("fin")) {
 						dialogoInformacion(marker.getTitle());
 					}
-
 					return false;
 				}
 			});
@@ -141,13 +138,13 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 						public void onItemSelected(AdapterView<?> parent,
 								android.view.View v, int position, long id) {
 							if (position == 0) {
+								zoomMapa(-3.983535, -79.201598, 12);
 								server = "http://190.12.61.30:5801";
 								new ListarRutas().execute();
-								zoomMapa(-3.983535, -79.201598, 12);
 							} else if (position == 1) {
+								zoomMapa(-4.062981, -78.951745, 14);
 								server = "http://200.0.29.117";
 								new ListarRutas().execute();
-								zoomMapa(-4.062981, -78.951745, 14);
 							}
 						}
 
@@ -162,14 +159,7 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 					mapaRutas.clear();
 					idRutaSeleccionada = position + 2;
 					selectMarcador();
-					timer.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							actualizarRastreo();
-						}
-					}, 0, 10000);
-
+					new ListarVehiculoGps().execute();
 				}
 
 				public void onNothingSelected(AdapterView<?> parent) {
@@ -224,28 +214,6 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 							.fromResource(R.drawable.bus_verde);
 				}
 			}
-		}
-	}
-
-	public void actualizarRastreo() {
-		this.runOnUiThread(Accion);
-	}
-
-	public Runnable Accion = new Runnable() {
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			new ListarVehiculoGps().execute();
-		}
-	};
-
-	public void onDestroy() {
-		super.onDestroy();
-		try {
-			timer.cancel();
-			this.finalize();
-		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -433,7 +401,7 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 							color = listadoRutas.get(i).getColor();
 						}
 					}
-					lineOptions.width(4);
+					lineOptions.width(5);
 					lineOptions.color(Color.parseColor(color));
 				}
 			}
@@ -443,20 +411,27 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 		protected void onPostExecute(Void arg1) {
 			if (isOnline) {
 				if (isServerUp) {
-					actualizarMarcador(new LatLng(listadoLineaRuta.get(0)
-							.getLatitud(), listadoLineaRuta.get(0)
-							.getLongitud()), "Inicio",
-							BitmapDescriptorFactory
-									.fromResource(R.drawable.marker1));
-					mapaRutas.addPolyline(lineOptions);
-					actualizarMarcador(
-							new LatLng(listadoLineaRuta.get(
-									listadoLineaRuta.size() - 1).getLatitud(),
-									listadoLineaRuta.get(
-											listadoLineaRuta.size() - 1)
-											.getLongitud()), "Final",
-							BitmapDescriptorFactory
-									.fromResource(R.drawable.marker2));
+					if (listadoLineaRuta.size() != 0) {
+						actualizarMarcador(new LatLng(listadoLineaRuta.get(0)
+								.getLatitud(), listadoLineaRuta.get(0)
+								.getLongitud()), "Inicio",
+								BitmapDescriptorFactory
+										.fromResource(R.drawable.inicio_ruta));
+						mapaRutas.addPolyline(lineOptions);
+						actualizarMarcador(
+								new LatLng(listadoLineaRuta.get(
+										listadoLineaRuta.size() - 1)
+										.getLatitud(), listadoLineaRuta.get(
+										listadoLineaRuta.size() - 1)
+										.getLongitud()), "Fin",
+								BitmapDescriptorFactory
+										.fromResource(R.drawable.fin_ruta));
+					} else {
+						Toast.makeText(getApplicationContext(),
+								"Lo sentimos datos no encontrados...",
+								Toast.LENGTH_SHORT).show();
+					}
+
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"Problemas con el servidor, intentelo mas tarde..",
@@ -484,21 +459,18 @@ public class MapaRutas extends FragmentActivity implements LocationListener {
 		String registro = titulo.split(",")[0];
 		String placa = titulo.split(",")[1];
 		Double velocidad = null;
-		String fechaConexion = null;
 		String fechaUltimoDato = null;
 		for (int i = 0; i < listadoVehiculosGps.size(); i++) {
 			if (placa.equalsIgnoreCase(listadoVehiculosGps.get(i).getPlaca())) {
 				velocidad = listadoVehiculosGps.get(i).getVelocidad();
-				fechaConexion = listadoVehiculosGps.get(i).getFechaHoraConex();
 				fechaUltimoDato = listadoVehiculosGps.get(i)
 						.getFechaHoraUltDato();
 			}
 		}
 		String mensaje = "Registro: " + registro + "\nPlaca: " + placa
-				+ "\nVelocidad: " + velocidad + "\nConexión: "
-				+ fechaConexion.replaceAll("T", " ")
-				+ "\nUltimo dato recibido: "
+				+ "\nVelocidad: " + velocidad + "\nFecha y Hora: "
 				+ fechaUltimoDato.replaceAll("T", " ");
+		// + fechaUltimoDato;
 		aDialogo.setMessage(mensaje);
 		aDialogo.setPositiveButton("Aceptar", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {

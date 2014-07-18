@@ -24,8 +24,7 @@ public class VehiculoGpsController {
 	private static final String tag_placaVehiculo = "placa";
 	private static final String tag_regMunicipalVehiculo = "regMunicipal";
 	private static final String tag_velocidad = "velocidad";
-	private static final String tag_fechaHoraConex = "fechaHoraConex";
-	private static final String tag_fechaHoraUltDato = "fechaHoraConex";
+	private static final String tag_fechaHoraUltDato = "fechaHoraUltDato";
 
 	JSONArray rutasJSON = null;
 
@@ -54,7 +53,6 @@ public class VehiculoGpsController {
 						skyPatrolJSON.getJSONObject(tag_idEquipo).getString(
 								tag_placaVehiculo),
 						skyPatrolJSON.getDouble(tag_velocidad),
-						skyPatrolJSON.getString(tag_fechaHoraConex),
 						skyPatrolJSON.getString(tag_fechaHoraUltDato));
 				listaVehiculoGps.add(vehiculoGps);
 			}
@@ -68,7 +66,6 @@ public class VehiculoGpsController {
 						fastracksJSON.getJSONObject(tag_idEquipo).getString(
 								tag_placaVehiculo),
 						fastracksJSON.getDouble(tag_velocidad),
-						fastracksJSON.getString(tag_fechaHoraConex),
 						fastracksJSON.getString(tag_fechaHoraUltDato));
 				listaVehiculoGps.add(vehiculoGps);
 			}
